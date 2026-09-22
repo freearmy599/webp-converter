@@ -52,8 +52,11 @@
     <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
 
     <style>
-        /* CSS to ensure ad containers collapse completely to 0 height when empty */
-        .adsbygoogle:not([data-adsbygoogle-status="done"]) {
+        /* Force AdSense block to completely collapse when empty so zero whitespace shows */
+        .adsbygoogle {
+            display: block !important;
+        }
+        .adsbygoogle[data-adsbygoogle-status="unfilled"] {
             display: none !important;
         }
     </style>
@@ -89,8 +92,19 @@
             </p>
         </div>
 
-        <!-- AdSense Slot: Top (Zero layout shift when empty) -->
-        <div class="max-w-3xl mx-auto w-full text-center">
+        <!-- AdSense Slot: Top Wrapper with explicit JavaScript check to remove container if blocked or empty -->
+        <div id="ad-container-top" class="max-w-3xl mx-auto w-full text-center my-1">
+            <script>
+                // If ad blocker is present or ad fails to push, remove container height completely
+                window.addEventListener('DOMContentLoaded', () => {
+                    setTimeout(() => {
+                        const ins = document.querySelector('.adsbygoogle');
+                        if (ins && (ins.getAttribute('data-adsbygoogle-status') === 'unfilled' || ins.innerHTML === '')) {
+                            document.getElementById('ad-container-top').style.display = 'none';
+                        }
+                    }, 1500);
+                });
+            </script>
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-6062724999261135"
@@ -683,14 +697,13 @@
                     <a href="${item.url}" download="${item.name}" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold py-2 px-3 rounded-lg transition-all">Download</a>
                 </div>
             `;
-            resultsList.innerHTML = `<div>${div.innerHTML}</div>`; // Safe injection
             resultsList.appendChild(div);
         }
 
         downloadAllBtn.addEventListener('click', async () => {
             if (processedBatchCache.length === 0) return;
             const zip = new JSZip();
-            processedBatchCache.each(item => zip.file(item.name, item.blob));
+            processedBatchCache.forEach(item => zip.file(item.name, item.blob));
             const content = await zip.generateAsync({ type: 'blob' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(content);
@@ -701,4 +714,4 @@
         });
     </script>
 </body>
-        </html> 
+</html>
