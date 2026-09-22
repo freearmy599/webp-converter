@@ -54,11 +54,11 @@
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
 
     <!-- Header & Navigation -->
-    <header class="w-full bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+    <header class="w-full bg-white/85 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
             <a href="#" onclick="showMainView(); return false;" class="flex items-center space-x-2 cursor-pointer">
-                <div class="bg-indigo-600 text-white p-2 rounded-lg font-bold text-lg tracking-wider shadow-md shadow-indigo-600/20">WebP</div>
-                <span class="font-extrabold text-xl text-slate-900 tracking-tight">Converter<span class="text-indigo-600">.io</span></span>
+                <div class="bg-indigo-600 text-white p-1.5 rounded-lg font-bold text-sm tracking-wider shadow-md shadow-indigo-600/20">WebP</div>
+                <span class="font-extrabold text-lg text-slate-900 tracking-tight">Converter<span class="text-indigo-600">.io</span></span>
             </a>
             <nav class="hidden md:flex space-x-6 text-sm font-medium text-slate-600">
                 <a href="#tool" onclick="showMainView(); return false;" class="hover:text-indigo-600 transition-colors">Converter Hub</a>
@@ -69,11 +69,21 @@
         </div>
     </header>
 
-    <!-- AdSense Slot: Leaderboard Top of Page -->
-    <div class="max-w-6xl mx-auto px-4 my-4 w-full">
-        <!-- AdSense Placeholder Start -->
-        <div class="w-full bg-slate-200 border border-dashed border-slate-300 rounded-lg p-4 text-center text-xs text-slate-500 uppercase tracking-widest">
-            <!-- Leaderboard Ad - Top of Page -->
+    <!-- Main Content Container -->
+    <main class="max-w-4xl mx-auto px-4 py-6 w-full flex-grow">
+        
+        <!-- Hero Section -->
+        <div class="text-center mb-6">
+            <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight mb-2">
+                Ultimate Free <span class="text-indigo-600">WebP, AVIF & HEIC</span> Suite
+            </h1>
+            <p class="text-sm sm:text-base text-slate-600 max-w-2xl mx-auto">
+                Convert HEIC/PNG/JPG, batch resize, crop, apply photo filters, strip privacy EXIF metadata, watermark, and build PDFs instantly inside your browser. 100% private.
+            </p>
+        </div>
+
+        <!-- AdSense Slot: Leaderboard Top (Collapsed if empty) -->
+        <div class="max-w-3xl mx-auto my-4 w-full text-center">
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-6062724999261135"
@@ -83,21 +93,6 @@
             <script>
                  (adsbygoogle = window.adsbygoogle || []).push({});
             </script>
-        </div>
-        <!-- AdSense Placeholder End -->
-    </div>
-
-    <!-- Main Content Container -->
-    <main class="max-w-4xl mx-auto px-4 py-8 w-full flex-grow">
-        
-        <!-- Hero Section -->
-        <div class="text-center mb-10">
-            <h1 class="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight mb-4">
-                Ultimate Free <span class="text-indigo-600">WebP, AVIF & HEIC</span> Suite
-            </h1>
-            <p class="text-lg text-slate-600 max-w-2xl mx-auto">
-                Convert HEIC/PNG/JPG, batch resize, crop, apply photo filters, strip privacy EXIF metadata, watermark, and build PDFs instantly inside your browser. 100% private.
-            </p>
         </div>
 
         <!-- Mode Select Tab Bar -->
@@ -291,25 +286,20 @@
     </div>
 
     <!-- AdSense Slot: Native Ad Below Tool -->
-    <div class="max-w-4xl mx-auto px-4 my-6 w-full">
-        <!-- AdSense Placeholder Start -->
-        <div class="w-full bg-slate-200 border border-dashed border-slate-300 rounded-xl p-8 text-center text-xs text-slate-500 uppercase tracking-widest">
-            <!-- Native Ad - Below Toolkit Module -->
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-6062724999261135"
-                 data-ad-slot="auto"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>
-                 (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-        </div>
-        <!-- AdSense Placeholder End -->
+    <div class="max-w-4xl mx-auto px-4 my-6 w-full text-center">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6062724999261135"
+             data-ad-slot="auto"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
     </div>
 
     <!-- Features Overview Section -->
-    <section id="features" class="max-w-4xl mx-auto px-4 py-12 border-t border-slate-200 mt-12 w-full">
+    <section id="features" class="max-w-4xl mx-auto px-4 py-8 border-t border-slate-200 mt-6 w-full">
         <h2 class="text-2xl font-bold text-slate-900 mb-6 text-center">Why Use WebPConverter.io?</h2>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
             <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
@@ -366,10 +356,10 @@
     </div>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-slate-200 mt-auto py-8">
+    <footer class="bg-white border-t border-slate-200 mt-auto py-6">
         <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500">
             <p>&copy; 2026 WebPConverter.io. All rights reserved. Zero Server Processing.</p>
-            <div class="flex space-x-4 mt-4 sm:mt-0">
+            <div class="flex space-x-4 mt-3 sm:mt-0">
                 <a href="#" onclick="openModal('privacy-modal'); return false;" class="hover:text-indigo-600 transition-colors">Privacy Policy</a>
                 <a href="#" onclick="openModal('terms-modal'); return false;" class="hover:text-indigo-600 transition-colors">Terms of Service</a>
             </div>
@@ -435,7 +425,6 @@
             if ((currentActiveMode === 'convert' || currentActiveMode === 'filters') && fileInput.files.length > 0) processQueue(fileInput.files);
         });
 
-        // Filter sliders real-time bindings
         ['brightness', 'contrast', 'saturate', 'grayscale'].forEach(f => {
             const el = document.getElementById(`filter-${f}`);
             if (el) {
