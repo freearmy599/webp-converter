@@ -3,25 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate Free Online Image Toolkit: Converter, Cropper, Watermarker & PDF Maker</title>
-    <meta name="description" content="The ultimate free client-side web utility. Convert to WebP/AVIF, batch resize, crop, remove backgrounds, watermark, and create PDFs 100% locally in your browser.">
-    <meta name="keywords" content="image converter, batch webp converter, free image cropper, client side background remover, image to pdf, watermark maker">
-    <link rel="canonical" href="https://example.com/ultimate-image-toolkit">
+    <title>WebPConverter.io | Ultimate Free Online Image Toolkit, Converter & Watermarker</title>
+    <meta name="description" content="The ultimate free client-side web utility. Convert to WebP/AVIF, batch resize, crop, watermark, and create PDFs 100% locally in your browser.">
+    <meta name="keywords" content="webpconverter, image converter, batch webp converter, free image cropper, client side watermark maker, image to pdf">
+    <link rel="canonical" href="https://webpconverter.io/">
 
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Ultimate Free Online Image Toolkit">
-    <meta property="og:description" content="All-in-one browser-based image suite: batch convert, crop, watermark, remove backgrounds, and build PDFs with zero server uploads.">
+    <meta property="og:title" content="WebPConverter.io | Ultimate Free Online Image Toolkit">
+    <meta property="og:description" content="All-in-one browser-based image suite: batch convert to WebP/AVIF, crop, watermark, and build PDFs with zero server uploads.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://example.com/ultimate-image-toolkit">
+    <meta property="og:url" content="https://webpconverter.io/">
 
     <!-- JSON-LD WebApplication Schema -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "Ultimate Free Online Image Toolkit",
-      "url": "https://example.com/ultimate-image-toolkit",
-      "description": "Comprehensive client-side media suite offering batch format conversion, cropping, watermarking, background removal, and PDF generation.",
+      "name": "WebPConverter.io",
+      "url": "https://webpconverter.io/",
+      "description": "Comprehensive client-side media suite offering batch format conversion to WebP/AVIF, cropping, watermarking, and PDF generation.",
       "applicationCategory": "MultimediaApplication",
       "operatingSystem": "All",
       "browserRequires": "Requires JavaScript and HTML5 Canvas support.",
@@ -49,11 +49,11 @@
     <header class="w-full bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
             <a href="#" onclick="showMainView(); return false;" class="flex items-center space-x-2 cursor-pointer">
-                <div class="bg-indigo-600 text-white p-2 rounded-lg font-bold text-lg tracking-wider shadow-md shadow-indigo-600/20">ULT</div>
-                <span class="font-extrabold text-xl text-slate-900 tracking-tight">Toolkit<span class="text-indigo-600">.io</span></span>
+                <div class="bg-indigo-600 text-white p-2 rounded-lg font-bold text-lg tracking-wider shadow-md shadow-indigo-600/20">WebP</div>
+                <span class="font-extrabold text-xl text-slate-900 tracking-tight">Converter<span class="text-indigo-600">.io</span></span>
             </a>
             <nav class="hidden md:flex space-x-6 text-sm font-medium text-slate-600">
-                <a href="#tool" onclick="showMainView(); return false;" class="hover:text-indigo-600 transition-colors">Suite Hub</a>
+                <a href="#tool" onclick="showMainView(); return false;" class="hover:text-indigo-600 transition-colors">Converter Hub</a>
                 <a href="#features" onclick="showMainView()" class="hover:text-indigo-600 transition-colors">Features</a>
                 <a href="#" onclick="openModal('privacy-modal'); return false;" class="hover:text-indigo-600 transition-colors">Privacy Policy</a>
                 <a href="#" onclick="openModal('terms-modal'); return false;" class="hover:text-indigo-600 transition-colors">Terms</a>
@@ -77,10 +77,10 @@
         <!-- Hero Section -->
         <div class="text-center mb-10">
             <h1 class="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight mb-4">
-                The Ultimate <span class="text-indigo-600">Client-Side</span> Image Suite
+                Ultimate Free <span class="text-indigo-600">WebP & AVIF</span> Converter Suite
             </h1>
             <p class="text-lg text-slate-600 max-w-2xl mx-auto">
-                Convert formats, crop, watermark, target specific file sizes, build PDFs, and remove backgrounds instantly inside your browser. 100% private, zero server uploads.
+                Convert formats, batch resize, crop, watermark with high-visibility stamps, build PDFs, and optimize images directly inside your browser. 100% private, zero server uploads.
             </p>
         </div>
 
@@ -103,8 +103,8 @@
                     <div class="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-inner">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
                     </div>
-                    <p id="dropzone-title" class="text-lg font-bold text-slate-700 mb-1">Drag & Drop images here for batch processing</p>
-                    <p class="text-sm text-slate-500 mb-4">or <span class="text-indigo-600 underline">browse</span> local storage</p>
+                    <p id="dropzone-title" class="text-lg font-bold text-slate-700 mb-1">Drag & Drop multiple images here</p>
+                    <p class="text-sm text-slate-500 mb-4">or <span class="text-indigo-600 underline">browse</span> local storage (Batch supported)</p>
                     <span class="inline-block bg-slate-100 text-slate-600 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">Supports PNG, JPG, WebP, AVIF</span>
                 </div>
             </div>
@@ -113,32 +113,23 @@
             
             <!-- 1. Converter & Resize Config -->
             <div id="config-convert" class="mt-6 bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-4">
-                <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Format</label>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Target Format</label>
                         <select id="output-format" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-sm font-medium text-slate-700 focus:ring-2 focus:ring-indigo-500">
-                            <option value="image/webp">WebP</option>
-                            <option value="image/avif">AVIF</option>
-                            <option value="image/jpeg">JPEG</option>
+                            <option value="image/webp">WebP (Recommended)</option>
+                            <option value="image/avif">AVIF (Ultra Compressed)</option>
+                            <option value="image/jpeg">JPEG (Legacy)</option>
                             <option value="image/png">PNG</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Scale Ratio</label>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Scale Dimension</label>
                         <select id="resize-scale" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-sm font-medium text-slate-700 focus:ring-2 focus:ring-indigo-500">
-                            <option value="1.0">100% (Original)</option>
-                            <option value="0.75">75% Scale</option>
-                            <option value="0.5">50% Scale</option>
-                            <option value="0.25">25% Scale</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Target Max Size</label>
-                        <select id="target-size-kb" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-sm font-medium text-slate-700 focus:ring-2 focus:ring-indigo-500">
-                            <option value="0">No Limit (Standard Quality)</option>
-                            <option value="50">Target under ~50 KB</option>
-                            <option value="100">Target under ~100 KB</option>
-                            <option value="500">Target under ~500 KB</option>
+                            <option value="1.0">Original Size (100%)</option>
+                            <option value="0.75">Resize to 75%</option>
+                            <option value="0.5">Resize to 50%</option>
+                            <option value="0.25">Resize to 25%</option>
                         </select>
                     </div>
                     <div>
@@ -169,7 +160,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Watermark Text Stamp</label>
-                        <input type="text" id="watermark-text" value="© Confidential Master" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-sm font-medium text-slate-700 focus:ring-2 focus:ring-indigo-500">
+                        <input type="text" id="watermark-text" value="© WebPConverter.io" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-sm font-medium text-slate-700 focus:ring-2 focus:ring-indigo-500">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Position Placement</label>
@@ -185,7 +176,7 @@
 
             <!-- 4. PDF Generator Config (Hidden initially) -->
             <div id="config-pdf" class="mt-6 hidden bg-slate-50 p-5 rounded-xl border border-slate-200 text-center">
-                <p class="text-sm text-slate-600 mb-3">Upload multiple images above to bundle them sequentially into a single downloadable PDF document.</p>
+                <p class="text-sm text-slate-600 mb-3">Upload multiple images above to bundle them sequentially into a single downloadable PDF document portfolio.</p>
                 <button onclick="generatePDFDocument()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-6 rounded-xl shadow transition-all text-sm">Compile & Download PDF Document</button>
             </div>
 
@@ -203,7 +194,7 @@
             <!-- Results Preview Section -->
             <div id="result-container" class="mt-8 hidden border-t border-slate-100 pt-8">
                 <div class="flex flex-col sm:flex-row items-center justify-between mb-6 gap-4">
-                    <h3 class="text-lg font-bold text-slate-800">Processed Output Feed (<span id="file-count">0</span>)</h3>
+                    <h3 class="text-lg font-bold text-slate-800">Conversion Queue Results (<span id="file-count">0</span>)</h3>
                     <button id="download-all-btn" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-5 rounded-xl shadow-md transition-all text-sm flex items-center space-x-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                         <span>Download All as ZIP</span>
@@ -234,22 +225,22 @@
 
     <!-- Features Overview Section -->
     <section id="features" class="max-w-4xl mx-auto px-4 py-12 border-t border-slate-200 mt-12 w-full">
-        <h2 class="text-2xl font-bold text-slate-900 mb-6 text-center">Unmatched Client-Side Architecture</h2>
+        <h2 class="text-2xl font-bold text-slate-900 mb-6 text-center">Why Use WebPConverter.io?</h2>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
             <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
                 <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center font-bold mb-3">01</div>
-                <h3 class="font-bold text-slate-800 mb-2">Target Size Optimizer</h3>
-                <p class="text-sm text-slate-600">Auto-adjusts compression curves iteratively until output payloads match strict user-defined KB limits.</p>
+                <h3 class="font-bold text-slate-800 mb-2">Multi-Format Batching</h3>
+                <p class="text-sm text-slate-600">Convert multiple items concurrently to WebP, AVIF, or JPEG and export them as individual files or a combined ZIP archive.</p>
             </div>
             <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
                 <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center font-bold mb-3">02</div>
-                <h3 class="font-bold text-slate-800 mb-2">Interactive Cropper & Stamps</h3>
-                <p class="text-sm text-slate-600">Fine-tune spatial aspects or overlay brand text stamps instantly without cloud roundtrips.</p>
+                <h3 class="font-bold text-slate-800 mb-2">High-Visibility Watermarking</h3>
+                <p class="text-sm text-slate-600">Protect images instantly with customized text stamps featuring automatic contrast outlines for any background.</p>
             </div>
             <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
                 <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center font-bold mb-3">03</div>
-                <h3 class="font-bold text-slate-800 mb-2">PDF Document Bundling</h3>
-                <p class="text-sm text-slate-600">Package multiple image frames sequentially into clean, standard document portfolios entirely offline.</p>
+                <h3 class="font-bold text-slate-800 mb-2">100% Client-Side Privacy</h3>
+                <p class="text-sm text-slate-600">Zero backend storage or server uploads. All transformations execute securely inside your modern browser sandbox.</p>
             </div>
         </div>
     </section>
@@ -292,7 +283,7 @@
     <!-- Footer -->
     <footer class="bg-white border-t border-slate-200 mt-auto py-8">
         <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500">
-            <p>&copy; 2026 Toolkit.io. All rights reserved. Zero Server Processing.</p>
+            <p>&copy; 2026 WebPConverter.io. All rights reserved. Zero Server Processing.</p>
             <div class="flex space-x-4 mt-4 sm:mt-0">
                 <a href="#" onclick="openModal('privacy-modal'); return false;" class="hover:text-indigo-600 transition-colors">Privacy Policy</a>
                 <a href="#" onclick="openModal('terms-modal'); return false;" class="hover:text-indigo-600 transition-colors">Terms of Service</a>
@@ -347,7 +338,6 @@
 
             resultContainer.classList.add('hidden');
             
-            // If files are already loaded in the input, auto-reprocess when switching tabs
             if (fileInput.files && fileInput.files.length > 0 && mode !== 'crop') {
                 processQueue(fileInput.files);
             }
@@ -358,7 +348,6 @@
             if (currentActiveMode === 'convert' && fileInput.files.length > 0) processQueue(fileInput.files);
         });
 
-        // Trigger updates dynamically when watermark text or position is changed
         document.getElementById('watermark-text').addEventListener('input', () => {
             if (currentActiveMode === 'watermark' && fileInput.files.length > 0) processQueue(fileInput.files);
         });
@@ -456,12 +445,11 @@
                         const ctx = canvas.getContext('2d');
                         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-                        // Fixed & Enhanced Watermark Drawing Logic with dynamic responsive sizing
+                        // Watermark drawing logic with high contrast visibility
                         if (currentActiveMode === 'watermark') {
                             const text = document.getElementById('watermark-text').value || 'Watermark';
                             const pos = document.getElementById('watermark-pos').value;
                             
-                            // Scale font size proportionally to image resolution
                             const fontSize = Math.max(18, Math.round(canvas.width / 25));
                             ctx.font = `bold ${fontSize}px sans-serif`;
                             ctx.textBaseline = 'bottom';
@@ -488,7 +476,6 @@
                                 y = (canvas.height / 2) + (textHeight / 2);
                             }
 
-                            // Draw text background shadow/stroke for maximum contrast visibility across light/dark pixels
                             ctx.lineWidth = Math.max(2, Math.round(fontSize / 8));
                             ctx.strokeStyle = 'rgba(0, 0, 0, 0.85)';
                             ctx.strokeText(text, x, y);
@@ -497,18 +484,18 @@
                             ctx.fillText(text, x, y);
                         }
 
-                        let format = 'image/png';
+                        let format = 'image/webp';
                         let quality = parseInt(document.getElementById('quality-range').value, 10) / 100;
                         if (currentActiveMode === 'convert') {
                             format = document.getElementById('output-format').value;
                         } else if (currentActiveMode === 'watermark') {
-                            format = file.type === 'image/jpeg' ? 'image/jpeg' : 'image/png';
+                            format = file.type === 'image/jpeg' ? 'image/jpeg' : 'image/webp';
                         }
 
                         canvas.toBlob((blob) => {
                             if (!blob) { reject(new Error('Blob generation failed')); return; }
                             const extMap = { 'image/webp': 'webp', 'image/avif': 'avif', 'image/jpeg': 'jpg', 'image/png': 'png' };
-                            const ext = extMap[format] || 'png';
+                            const ext = extMap[format] || 'webp';
                             const base = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
                             resolve({
                                 name: `${base}_processed.${ext}`,
@@ -530,13 +517,13 @@
             const croppedCanvas = cropperObj.getCroppedCanvas();
             croppedCanvas.toBlob((blob) => {
                 const url = URL.createObjectURL(blob);
-                const res = { name: 'cropped_image.png', size: blob.size, originalSize: blob.size, url: url, blob: blob };
+                const res = { name: 'cropped_image.webp', size: blob.size, originalSize: blob.size, url: url, blob: blob };
                 processedBatchCache = [res];
                 resultsList.innerHTML = '';
                 appendResultRow(res);
                 fileCountSpan.textContent = '1';
                 resultContainer.classList.remove('hidden');
-            }, 'image/png');
+            }, 'image/webp', 0.9);
         }
 
         async function generatePDFDocument() {
@@ -596,11 +583,11 @@
             const content = await zip.generateAsync({ type: 'blob' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(content);
-            link.download = 'toolkit_batch_bundle.zip';
+            link.download = 'webpconverter_batch_bundle.zip';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
         });
     </script>
 </body>
-                </html>
+    </html>
