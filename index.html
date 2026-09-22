@@ -52,8 +52,10 @@
     <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
 
     <style>
-        /* Automatically collapse AdSense block if empty to prevent whitespace gaps */
-        adsbygoogle:empty { display: none !important; }
+        /* CSS to ensure ad containers collapse completely to 0 height when empty */
+        .adsbygoogle:not([data-adsbygoogle-status="done"]) {
+            display: none !important;
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
@@ -87,9 +89,8 @@
             </p>
         </div>
 
-        <!-- AdSense Slot: Top (Auto collapse if empty) -->
-        <div class="max-w-3xl mx-auto my-2 w-full text-center">
-            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6062724999261135" crossorigin="anonymous"></script>
+        <!-- AdSense Slot: Top (Zero layout shift when empty) -->
+        <div class="max-w-3xl mx-auto w-full text-center">
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-6062724999261135"
@@ -102,7 +103,7 @@
         </div>
 
         <!-- Mode Select Tab Bar -->
-        <div class="flex flex-wrap justify-center gap-2 mb-6" id="mode-tabs">
+        <div class="flex flex-wrap justify-center gap-2 mb-6 mt-4" id="mode-tabs">
             <button onclick="switchMode('convert')" class="mode-btn bg-indigo-600 text-white font-bold px-4 py-2 rounded-xl text-sm shadow transition-all" data-mode="convert">Converter & Resize</button>
             <button onclick="switchMode('crop')" class="mode-btn bg-white text-slate-700 hover:bg-slate-100 font-bold px-4 py-2 rounded-xl text-sm border border-slate-200 transition-all" data-mode="crop">Crop & Rotate</button>
             <button onclick="switchMode('filters')" class="mode-btn bg-white text-slate-700 hover:bg-slate-100 font-bold px-4 py-2 rounded-xl text-sm border border-slate-200 transition-all" data-mode="filters">Photo Effects</button>
@@ -682,13 +683,14 @@
                     <a href="${item.url}" download="${item.name}" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold py-2 px-3 rounded-lg transition-all">Download</a>
                 </div>
             `;
+            resultsList.innerHTML = `<div>${div.innerHTML}</div>`; // Safe injection
             resultsList.appendChild(div);
         }
 
         downloadAllBtn.addEventListener('click', async () => {
             if (processedBatchCache.length === 0) return;
             const zip = new JSZip();
-            processedBatchCache.forEach(item => zip.file(item.name, item.blob));
+            processedBatchCache.each(item => zip.file(item.name, item.blob));
             const content = await zip.generateAsync({ type: 'blob' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(content);
@@ -699,4 +701,4 @@
         });
     </script>
 </body>
-    </html>
+        </html> 
