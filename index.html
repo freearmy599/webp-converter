@@ -52,12 +52,13 @@
     <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
 
     <style>
-        /* Force AdSense block to completely collapse when empty so zero whitespace shows */
-        .adsbygoogle {
-            display: block !important;
-        }
-        .adsbygoogle[data-adsbygoogle-status="unfilled"] {
+        /* Force container to completely collapse to 0 height and remove margin if ad slot is empty */
+        #ad-container-top:empty,
+        .adsbygoogle:empty {
             display: none !important;
+            height: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
         }
     </style>
 </head>
@@ -92,19 +93,8 @@
             </p>
         </div>
 
-        <!-- AdSense Slot: Top Wrapper with explicit JavaScript check to remove container if blocked or empty -->
-        <div id="ad-container-top" class="max-w-3xl mx-auto w-full text-center my-1">
-            <script>
-                // If ad blocker is present or ad fails to push, remove container height completely
-                window.addEventListener('DOMContentLoaded', () => {
-                    setTimeout(() => {
-                        const ins = document.querySelector('.adsbygoogle');
-                        if (ins && (ins.getAttribute('data-adsbygoogle-status') === 'unfilled' || ins.innerHTML === '')) {
-                            document.getElementById('ad-container-top').style.display = 'none';
-                        }
-                    }, 1500);
-                });
-            </script>
+        <!-- AdSense Slot: Top (Zero layout shift / collapses to 0 height if unfilled) -->
+        <div id="ad-container-top" class="max-w-3xl mx-auto w-full text-center">
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-6062724999261135"
@@ -714,4 +704,4 @@
         });
     </script>
 </body>
-</html>
+                    </html>
