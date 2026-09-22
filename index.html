@@ -346,11 +346,24 @@
             if (mode === 'pdf') document.getElementById('config-pdf').classList.remove('hidden');
 
             resultContainer.classList.add('hidden');
+            
+            // If files are already loaded in the input, auto-reprocess when switching tabs
+            if (fileInput.files && fileInput.files.length > 0 && mode !== 'crop') {
+                processQueue(fileInput.files);
+            }
         }
 
         qualityRange.addEventListener('input', (e) => {
             qualityVal.textContent = e.target.value + '%';
             if (currentActiveMode === 'convert' && fileInput.files.length > 0) processQueue(fileInput.files);
+        });
+
+        // Trigger updates dynamically when watermark text or position is changed
+        document.getElementById('watermark-text').addEventListener('input', () => {
+            if (currentActiveMode === 'watermark' && fileInput.files.length > 0) processQueue(fileInput.files);
+        });
+        document.getElementById('watermark-pos').addEventListener('change', () => {
+            if (currentActiveMode === 'watermark' && fileInput.files.length > 0) processQueue(fileInput.files);
         });
 
         fileInput.addEventListener('change', (e) => {
@@ -443,46 +456,59 @@
                         const ctx = canvas.getContext('2d');
                         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
+                        // Fixed & Enhanced Watermark Drawing Logic with dynamic responsive sizing
                         if (currentActiveMode === 'watermark') {
-                            const text = document.getElementById('watermark-text').value;
+                            const text = document.getElementById('watermark-text').value || 'Watermark';
                             const pos = document.getElementById('watermark-pos').value;
-                            ctx.font = 'bold 24px sans-serif';
-                            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-                            ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
-                            ctx.shadowBlur = 4;
-                            let x = 20, y = canvas.height - 30;
+                            
+                            // Scale font size proportionally to image resolution
+                            const fontSize = Math.max(18, Math.round(canvas.width / 25));
+                            ctx.font = `bold ${fontSize}px sans-serif`;
+                            ctx.textBaseline = 'bottom';
+
+                            const metrics = ctx.measureText(text);
+                            const textWidth = metrics.width;
+                            const textHeight = fontSize;
+                            
+                            const padding = Math.round(canvas.width / 40);
+                            let x = padding;
+                            let y = canvas.height - padding;
+
                             if (pos === 'bottom-right') {
-                                const metrics = ctx.measureText(text);
-                                x = canvas.width - metrics.width - 20;
-                            } else if (pos === 'center') {
-                                x = (canvas.width / 2) - 100;
-                                y = canvas.height / 2;
+                                x = canvas.width - textWidth - padding;
+                                y = canvas.height - padding;
+                            } else if (pos === 'bottom-left') {
+                                x = padding;
+                                y = canvas.height - padding;
                             } else if (pos === 'top-right') {
-                                const metrics = ctx.measureText(text);
-                                x = canvas.width - metrics.width - 20;
-                                y = 40;
+                                x = canvas.width - textWidth - padding;
+                                y = textHeight + padding;
+                            } else if (pos === 'center') {
+                                x = (canvas.width - textWidth) / 2;
+                                y = (canvas.height / 2) + (textHeight / 2);
                             }
+
+                            // Draw text background shadow/stroke for maximum contrast visibility across light/dark pixels
+                            ctx.lineWidth = Math.max(2, Math.round(fontSize / 8));
+                            ctx.strokeStyle = 'rgba(0, 0, 0, 0.85)';
+                            ctx.strokeText(text, x, y);
+
+                            ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
                             ctx.fillText(text, x, y);
                         }
 
-                        let format = 'image/webp';
+                        let format = 'image/png';
                         let quality = parseInt(document.getElementById('quality-range').value, 10) / 100;
                         if (currentActiveMode === 'convert') {
                             format = document.getElementById('output-format').value;
-                            const targetKb = parseInt(document.getElementById('target-size-kb').value, 10);
-                            if (targetKb > 0) {
-                                // Iterative quality descent to target size
-                                let q = quality;
-                                canvas.toBlob((b) => {
-                                    // simple loop approximation
-                                }, format, q);
-                            }
+                        } else if (currentActiveMode === 'watermark') {
+                            format = file.type === 'image/jpeg' ? 'image/jpeg' : 'image/png';
                         }
 
                         canvas.toBlob((blob) => {
                             if (!blob) { reject(new Error('Blob generation failed')); return; }
                             const extMap = { 'image/webp': 'webp', 'image/avif': 'avif', 'image/jpeg': 'jpg', 'image/png': 'png' };
-                            const ext = extMap[format] || 'webp';
+                            const ext = extMap[format] || 'png';
                             const base = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
                             resolve({
                                 name: `${base}_processed.${ext}`,
@@ -544,7 +570,7 @@
         function appendResultRow(item) {
             const diff = item.originalSize - item.size;
             const pct = item.originalSize > 0 ? Math.round((diff / item.originalSize) * 100) : 0;
-            const label = pct > 0 ? `${pct}% smaller` : 'Optimized';
+            const label = pct > 0 ? `${pct}% smaller` : 'Processed';
 
             const div = document.createElement('div');
             div.className = 'bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center justify-between gap-4 text-sm';
@@ -577,4 +603,4 @@
         });
     </script>
 </body>
-    </html>
+                </html>
