@@ -50,6 +50,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <!-- heic2any for Apple HEIC decoding support -->
     <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
+
+    <style>
+        /* Automatically collapse AdSense block if empty to prevent whitespace gaps */
+        adsbygoogle:empty { display: none !important; }
+    </style>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
 
@@ -82,8 +87,9 @@
             </p>
         </div>
 
-        <!-- AdSense Slot: Leaderboard Top (Collapsed if empty) -->
-        <div class="max-w-3xl mx-auto my-4 w-full text-center">
+        <!-- AdSense Slot: Top (Auto collapse if empty) -->
+        <div class="max-w-3xl mx-auto my-2 w-full text-center">
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6062724999261135" crossorigin="anonymous"></script>
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-6062724999261135"
@@ -283,19 +289,6 @@
                 <button onclick="closeModal('compare-modal')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-4 py-2 rounded-xl text-sm">Close Inspector</button>
             </div>
         </div>
-    </div>
-
-    <!-- AdSense Slot: Native Ad Below Tool -->
-    <div class="max-w-4xl mx-auto px-4 my-6 w-full text-center">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-6062724999261135"
-             data-ad-slot="auto"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
     </div>
 
     <!-- Features Overview Section -->
@@ -706,4 +699,4 @@
         });
     </script>
 </body>
-                    </html>
+    </html>
