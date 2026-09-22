@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WebPConverter.io | Ultimate Free Online Image Toolkit, Converter & Watermarker</title>
-    <meta name="description" content="The ultimate free client-side web utility. Convert to WebP/AVIF, batch resize, crop, watermark, and create PDFs 100% locally in your browser.">
-    <meta name="keywords" content="webpconverter, image converter, batch webp converter, free image cropper, client side watermark maker, image to pdf">
+    <meta name="description" content="The ultimate free client-side web utility. Convert HEIC/PNG/JPG to WebP/AVIF, batch resize, crop, filter effects, strip metadata, watermark, and create PDFs 100% locally in your browser.">
+    <meta name="keywords" content="webpconverter, heic to webp, image converter, batch webp converter, free image cropper, client side watermark maker, image to pdf, exif stripper">
     <link rel="canonical" href="https://webpconverter.io/">
 
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="WebPConverter.io | Ultimate Free Online Image Toolkit">
-    <meta property="og:description" content="All-in-one browser-based image suite: batch convert to WebP/AVIF, crop, watermark, and build PDFs with zero server uploads.">
+    <meta property="og:description" content="All-in-one browser-based image suite: batch convert HEIC/PNG/JPG to WebP/AVIF, crop, filter, strip EXIF metadata, watermark, and build PDFs with zero server uploads.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://webpconverter.io/">
 
@@ -21,7 +21,7 @@
       "@type": "WebApplication",
       "name": "WebPConverter.io",
       "url": "https://webpconverter.io/",
-      "description": "Comprehensive client-side media suite offering batch format conversion to WebP/AVIF, cropping, watermarking, and PDF generation.",
+      "description": "Comprehensive client-side media suite offering HEIC/image format conversion to WebP/AVIF, cropping, photo filters, metadata stripping, watermarking, and PDF generation.",
       "applicationCategory": "MultimediaApplication",
       "operatingSystem": "All",
       "browserRequires": "Requires JavaScript and HTML5 Canvas support.",
@@ -42,6 +42,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <!-- jsPDF for PDF generation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- heic2any for Apple HEIC decoding support -->
+    <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
 
@@ -77,10 +79,10 @@
         <!-- Hero Section -->
         <div class="text-center mb-10">
             <h1 class="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight mb-4">
-                Ultimate Free <span class="text-indigo-600">WebP & AVIF</span> Converter Suite
+                Ultimate Free <span class="text-indigo-600">WebP, AVIF & HEIC</span> Suite
             </h1>
             <p class="text-lg text-slate-600 max-w-2xl mx-auto">
-                Convert formats, batch resize, crop, watermark with high-visibility stamps, build PDFs, and optimize images directly inside your browser. 100% private, zero server uploads.
+                Convert HEIC/PNG/JPG, batch resize, crop, apply photo filters, strip privacy EXIF metadata, watermark, and build PDFs instantly inside your browser. 100% private.
             </p>
         </div>
 
@@ -88,6 +90,7 @@
         <div class="flex flex-wrap justify-center gap-2 mb-6" id="mode-tabs">
             <button onclick="switchMode('convert')" class="mode-btn bg-indigo-600 text-white font-bold px-4 py-2 rounded-xl text-sm shadow transition-all" data-mode="convert">Converter & Resize</button>
             <button onclick="switchMode('crop')" class="mode-btn bg-white text-slate-700 hover:bg-slate-100 font-bold px-4 py-2 rounded-xl text-sm border border-slate-200 transition-all" data-mode="crop">Crop & Rotate</button>
+            <button onclick="switchMode('filters')" class="mode-btn bg-white text-slate-700 hover:bg-slate-100 font-bold px-4 py-2 rounded-xl text-sm border border-slate-200 transition-all" data-mode="filters">Photo Effects</button>
             <button onclick="switchMode('watermark')" class="mode-btn bg-white text-slate-700 hover:bg-slate-100 font-bold px-4 py-2 rounded-xl text-sm border border-slate-200 transition-all" data-mode="watermark">Watermark Stamp</button>
             <button onclick="switchMode('pdf')" class="mode-btn bg-white text-slate-700 hover:bg-slate-100 font-bold px-4 py-2 rounded-xl text-sm border border-slate-200 transition-all" data-mode="pdf">Images to PDF</button>
         </div>
@@ -97,15 +100,15 @@
             
             <!-- Drop Zone & Input Area -->
             <div id="drop-zone" class="border-2 border-dashed border-slate-300 rounded-xl p-8 sm:p-12 text-center cursor-pointer hover:border-indigo-500 hover:bg-indigo-50/30 transition-all group relative">
-                <input type="file" id="file-input" accept="image/png, image/jpeg, image/jpg, image/webp, image/avif" multiple class="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10" aria-label="Upload files">
+                <input type="file" id="file-input" accept="image/png, image/jpeg, image/jpg, image/webp, image/avif, image/heic, image/heif" multiple class="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10" aria-label="Upload files">
                 
                 <div class="flex flex-col items-center pointer-events-none">
                     <div class="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-inner">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
                     </div>
-                    <p id="dropzone-title" class="text-lg font-bold text-slate-700 mb-1">Drag & Drop multiple images here</p>
+                    <p id="dropzone-title" class="text-lg font-bold text-slate-700 mb-1">Drag & Drop images or HEIC files here</p>
                     <p class="text-sm text-slate-500 mb-4">or <span class="text-indigo-600 underline">browse</span> local storage (Batch supported)</p>
-                    <span class="inline-block bg-slate-100 text-slate-600 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">Supports PNG, JPG, WebP, AVIF</span>
+                    <span class="inline-block bg-slate-100 text-slate-600 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">Supports HEIC, PNG, JPG, WebP, AVIF</span>
                 </div>
             </div>
 
@@ -113,7 +116,7 @@
             
             <!-- 1. Converter & Resize Config -->
             <div id="config-convert" class="mt-6 bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-4">
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
                     <div>
                         <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Target Format</label>
                         <select id="output-format" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-sm font-medium text-slate-700 focus:ring-2 focus:ring-indigo-500">
@@ -121,6 +124,7 @@
                             <option value="image/avif">AVIF (Ultra Compressed)</option>
                             <option value="image/jpeg">JPEG (Legacy)</option>
                             <option value="image/png">PNG</option>
+                            <option value="image/x-icon">ICO (Favicon)</option>
                         </select>
                     </div>
                     <div>
@@ -131,6 +135,16 @@
                             <option value="0.5">Resize to 50%</option>
                             <option value="0.25">Resize to 25%</option>
                         </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Privacy Metadata</label>
+                        <div class="flex items-center h-10">
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="strip-exif" checked class="sr-only peer">
+                                <div class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"></div>
+                                <span class="ml-2 text-xs font-semibold text-slate-700">Strip EXIF / GPS Data</span>
+                            </label>
+                        </div>
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1 flex justify-between">
@@ -155,7 +169,29 @@
                 </div>
             </div>
 
-            <!-- 3. Watermark Stamp Config (Hidden initially) -->
+            <!-- 3. Photo Filters Config (Hidden initially) -->
+            <div id="config-filters" class="mt-6 hidden bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-4">
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs font-bold text-slate-700 uppercase">
+                    <div>
+                        <label class="block mb-1">Brightness (<span id="bright-val">100</span>%)</label>
+                        <input type="range" id="filter-brightness" min="0" max="200" value="100" class="w-full accent-indigo-600">
+                    </div>
+                    <div>
+                        <label class="block mb-1">Contrast (<span id="contrast-val">100</span>%)</label>
+                        <input type="range" id="filter-contrast" min="0" max="200" value="100" class="w-full accent-indigo-600">
+                    </div>
+                    <div>
+                        <label class="block mb-1">Saturation (<span id="saturate-val">100</span>%)</label>
+                        <input type="range" id="filter-saturate" min="0" max="200" value="100" class="w-full accent-indigo-600">
+                    </div>
+                    <div>
+                        <label class="block mb-1">Grayscale (<span id="gray-val">0</span>%)</label>
+                        <input type="range" id="filter-grayscale" min="0" max="100" value="0" class="w-full accent-indigo-600">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Watermark Stamp Config (Hidden initially) -->
             <div id="config-watermark" class="mt-6 hidden bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-4">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
@@ -174,7 +210,7 @@
                 </div>
             </div>
 
-            <!-- 4. PDF Generator Config (Hidden initially) -->
+            <!-- 5. PDF Generator Config (Hidden initially) -->
             <div id="config-pdf" class="mt-6 hidden bg-slate-50 p-5 rounded-xl border border-slate-200 text-center">
                 <p class="text-sm text-slate-600 mb-3">Upload multiple images above to bundle them sequentially into a single downloadable PDF document portfolio.</p>
                 <button onclick="generatePDFDocument()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-6 rounded-xl shadow transition-all text-sm">Compile & Download PDF Document</button>
@@ -213,6 +249,33 @@
 
     </main>
 
+    <!-- Interactive Before / After Comparison Modal -->
+    <div id="compare-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative">
+            <div class="flex items-center justify-between mb-4 pb-2 border-b border-slate-100">
+                <h3 class="text-lg font-bold text-slate-900">Before & After Visual Inspector</h3>
+                <button onclick="closeModal('compare-modal')" class="text-slate-400 hover:text-slate-600 text-xl font-bold">&times;</button>
+            </div>
+            <div class="grid grid-cols-2 gap-4 text-center">
+                <div>
+                    <span class="text-xs font-bold text-slate-500 uppercase">Original</span>
+                    <div class="h-64 bg-slate-100 border border-slate-200 rounded-lg flex items-center justify-center overflow-hidden p-1 mt-1">
+                        <img id="compare-orig" src="" alt="Original" class="max-h-full max-w-full object-contain">
+                    </div>
+                </div>
+                <div>
+                    <span class="text-xs font-bold text-indigo-600 uppercase">Processed Output</span>
+                    <div class="h-64 bg-indigo-50 border border-indigo-100 rounded-lg flex items-center justify-center overflow-hidden p-1 mt-1">
+                        <img id="compare-proc" src="" alt="Processed" class="max-h-full max-w-full object-contain">
+                    </div>
+                </div>
+            </div>
+            <div class="mt-6 text-right">
+                <button onclick="closeModal('compare-modal')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-4 py-2 rounded-xl text-sm">Close Inspector</button>
+            </div>
+        </div>
+    </div>
+
     <!-- AdSense Slot: Native Ad Below Tool -->
     <div class="max-w-4xl mx-auto px-4 my-6 w-full">
         <!-- AdSense Placeholder Start -->
@@ -229,13 +292,13 @@
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
             <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
                 <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center font-bold mb-3">01</div>
-                <h3 class="font-bold text-slate-800 mb-2">Multi-Format Batching</h3>
-                <p class="text-sm text-slate-600">Convert multiple items concurrently to WebP, AVIF, or JPEG and export them as individual files or a combined ZIP archive.</p>
+                <h3 class="font-bold text-slate-800 mb-2">HEIC & Multi-Format Batching</h3>
+                <p class="text-sm text-slate-600">Convert iPhone HEIC and multi-format photos concurrently to WebP or AVIF with full EXIF privacy stripping.</p>
             </div>
             <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
                 <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center font-bold mb-3">02</div>
-                <h3 class="font-bold text-slate-800 mb-2">High-Visibility Watermarking</h3>
-                <p class="text-sm text-slate-600">Protect images instantly with customized text stamps featuring automatic contrast outlines for any background.</p>
+                <h3 class="font-bold text-slate-800 mb-2">Filters & Side-by-Side Inspector</h3>
+                <p class="text-sm text-slate-600">Fine-tune photo lighting effects and visually evaluate quality retention with an interactive comparison modal.</p>
             </div>
             <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
                 <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center font-bold mb-3">03</div>
@@ -328,11 +391,13 @@
 
             document.getElementById('config-convert').classList.add('hidden');
             document.getElementById('config-crop').classList.add('hidden');
+            document.getElementById('config-filters').classList.add('hidden');
             document.getElementById('config-watermark').classList.add('hidden');
             document.getElementById('config-pdf').classList.add('hidden');
 
             if (mode === 'convert') document.getElementById('config-convert').classList.remove('hidden');
             if (mode === 'crop') document.getElementById('config-crop').classList.remove('hidden');
+            if (mode === 'filters') document.getElementById('config-filters').classList.remove('hidden');
             if (mode === 'watermark') document.getElementById('config-watermark').classList.remove('hidden');
             if (mode === 'pdf') document.getElementById('config-pdf').classList.remove('hidden');
 
@@ -345,7 +410,18 @@
 
         qualityRange.addEventListener('input', (e) => {
             qualityVal.textContent = e.target.value + '%';
-            if (currentActiveMode === 'convert' && fileInput.files.length > 0) processQueue(fileInput.files);
+            if ((currentActiveMode === 'convert' || currentActiveMode === 'filters') && fileInput.files.length > 0) processQueue(fileInput.files);
+        });
+
+        // Filter sliders real-time bindings
+        ['brightness', 'contrast', 'saturate', 'grayscale'].forEach(f => {
+            const el = document.getElementById(`filter-${f}`);
+            if (el) {
+                el.addEventListener('input', (e) => {
+                    document.getElementById(`${f === 'brightness' ? 'bright' : f === 'contrast' ? 'contrast' : f === 'saturate' ? 'saturate' : 'gray'}-val`).textContent = e.target.value;
+                    if (currentActiveMode === 'filters' && fileInput.files.length > 0) processQueue(fileInput.files);
+                });
+            }
         });
 
         document.getElementById('watermark-text').addEventListener('input', () => {
@@ -377,9 +453,14 @@
             return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
         }
 
-        function handleFilesEntry(files) {
+        async function handleFilesEntry(files) {
             errorBanner.classList.add('hidden');
             if (currentActiveMode === 'crop') {
+                let file = files[0];
+                if (file.name.toLowerCase().endsWith('.heic') || file.name.toLowerCase().endsWith('.heif') || file.type === 'image/heic') {
+                    const convertedBlob = await heic2any({ blob: file, toType: 'image/jpeg' });
+                    file = new File([convertedBlob], file.name.replace(/\.[^/.]+$/, "") + ".jpg", { type: 'image/jpeg' });
+                }
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     const imgTarget = document.getElementById('crop-image-target');
@@ -387,7 +468,7 @@
                     if (cropperObj) cropperObj.destroy();
                     cropperObj = new Cropper(imgTarget, { aspectRatio: NaN, viewMode: 1 });
                 };
-                reader.readAsDataURL(files[0]);
+                reader.readAsDataURL(file);
             } else {
                 processQueue(files);
             }
@@ -402,14 +483,20 @@
 
             const total = files.length;
             for (let i = 0; i < total; i++) {
-                const file = files[i];
-                if (!file.type.match('image.*')) continue;
+                let file = files[i];
+                if (!file.type.match('image.*') && !file.name.toLowerCase().endsWith('.heic') && !file.name.toLowerCase().endsWith('.heif')) continue;
 
                 progressText.textContent = `Processing (${i+1}/${total}): ${file.name}`;
                 progressBar.style.width = Math.round((i / total) * 100) + '%';
                 progressPercent.textContent = Math.round((i / total) * 100) + '%';
 
                 try {
+                    // HEIC / HEIF handling via heic2any decoder
+                    if (file.name.toLowerCase().endsWith('.heic') || file.name.toLowerCase().endsWith('.heif') || file.type === 'image/heic') {
+                        const convertedBlob = await heic2any({ blob: file, toType: 'image/jpeg' });
+                        file = new File([convertedBlob], file.name.replace(/\.[^/.]+$/, "") + ".jpg", { type: 'image/jpeg' });
+                    }
+
                     const res = await processSingleItem(file);
                     processedBatchCache.push(res);
                     appendResultRow(res);
@@ -443,9 +530,19 @@
                         canvas.width = Math.max(1, Math.round(img.width * scale));
                         canvas.height = Math.max(1, Math.round(img.height * scale));
                         const ctx = canvas.getContext('2d');
+
+                        // Apply Photo Filters if in filter mode
+                        if (currentActiveMode === 'filters') {
+                            const b = document.getElementById('filter-brightness').value;
+                            const c = document.getElementById('filter-contrast').value;
+                            const s = document.getElementById('filter-saturate').value;
+                            const g = document.getElementById('filter-grayscale').value;
+                            ctx.filter = `brightness(${b}%) contrast(${c}%) saturate(${s}%) grayscale(${g}%)`;
+                        }
+
                         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-                        // Watermark drawing logic with high contrast visibility
+                        // Watermark drawing logic
                         if (currentActiveMode === 'watermark') {
                             const text = document.getElementById('watermark-text').value || 'Watermark';
                             const pos = document.getElementById('watermark-pos').value;
@@ -488,20 +585,24 @@
                         let quality = parseInt(document.getElementById('quality-range').value, 10) / 100;
                         if (currentActiveMode === 'convert') {
                             format = document.getElementById('output-format').value;
-                        } else if (currentActiveMode === 'watermark') {
+                        } else if (currentActiveMode === 'watermark' || currentActiveMode === 'filters') {
                             format = file.type === 'image/jpeg' ? 'image/jpeg' : 'image/webp';
                         }
 
                         canvas.toBlob((blob) => {
                             if (!blob) { reject(new Error('Blob generation failed')); return; }
-                            const extMap = { 'image/webp': 'webp', 'image/avif': 'avif', 'image/jpeg': 'jpg', 'image/png': 'png' };
+                            const extMap = { 'image/webp': 'webp', 'image/avif': 'avif', 'image/jpeg': 'jpg', 'image/png': 'png', 'image/x-icon': 'ico' };
                             const ext = extMap[format] || 'webp';
                             const base = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
+                            const origUrl = URL.createObjectURL(file);
+                            const procUrl = URL.createObjectURL(blob);
+
                             resolve({
                                 name: `${base}_processed.${ext}`,
                                 size: blob.size,
                                 originalSize: file.size,
-                                url: URL.createObjectURL(blob),
+                                url: procUrl,
+                                originalUrl: origUrl,
                                 blob: blob
                             });
                         }, format, quality);
@@ -517,7 +618,7 @@
             const croppedCanvas = cropperObj.getCroppedCanvas();
             croppedCanvas.toBlob((blob) => {
                 const url = URL.createObjectURL(blob);
-                const res = { name: 'cropped_image.webp', size: blob.size, originalSize: blob.size, url: url, blob: blob };
+                const res = { name: 'cropped_image.webp', size: blob.size, originalSize: blob.size, url: url, originalUrl: url, blob: blob };
                 processedBatchCache = [res];
                 resultsList.innerHTML = '';
                 appendResultRow(res);
@@ -554,6 +655,12 @@
             alert('PDF generated and downloaded successfully!');
         }
 
+        function openInspector(origUrl, procUrl) {
+            document.getElementById('compare-orig').src = origUrl;
+            document.getElementById('compare-proc').src = procUrl;
+            openModal('compare-modal');
+        }
+
         function appendResultRow(item) {
             const diff = item.originalSize - item.size;
             const pct = item.originalSize > 0 ? Math.round((diff / item.originalSize) * 100) : 0;
@@ -562,16 +669,17 @@
             const div = document.createElement('div');
             div.className = 'bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center justify-between gap-4 text-sm';
             div.innerHTML = `
-                <div class="flex items-center space-x-3 truncate">
+                <div class="flex items-center space-x-3 truncate cursor-pointer" onclick="openInspector('${item.originalUrl}', '${item.url}')" title="Click to inspect Before & After">
                     <img src="${item.url}" class="w-10 h-10 object-contain bg-white rounded border border-slate-200 p-0.5 flex-shrink-0" alt="thumb">
                     <div class="truncate">
-                        <p class="font-bold text-slate-800 truncate">${item.name}</p>
+                        <p class="font-bold text-slate-800 truncate hover:text-indigo-600 transition-colors">${item.name} <span class="text-xs text-indigo-500 font-normal">(Inspect)</span></p>
                         <p class="text-xs text-slate-500">${formatBytes(item.size)} &bull; <span class="text-indigo-600 font-semibold">${label}</span></p>
                     </div>
                 </div>
-                <a href="${item.url}" download="${item.name}" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold py-2 px-3 rounded-lg transition-all flex-shrink-0">
-                    Download
-                </a>
+                <div class="flex items-center space-x-2 flex-shrink-0">
+                    <button onclick="openInspector('${item.originalUrl}', '${item.url}')" class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-semibold py-2 px-2.5 rounded-lg transition-all">Compare</button>
+                    <a href="${item.url}" download="${item.name}" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold py-2 px-3 rounded-lg transition-all">Download</a>
+                </div>
             `;
             resultsList.appendChild(div);
         }
@@ -590,4 +698,4 @@
         });
     </script>
 </body>
-    </html>
+</html>
